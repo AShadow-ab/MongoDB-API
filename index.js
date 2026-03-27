@@ -1,4 +1,5 @@
 const express = require("express");
+require("dotenv").config();
 const mongoose = require("mongoose");
 const Todo = require("./models/todo");
 
@@ -11,8 +12,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// MongoDB connection
-mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect("mongodb://127.0.0.1:27017/TodoDB")
 .then(() => console.log("MongoDB Connected"))
 .catch(err => console.error(err));
 
@@ -66,8 +66,9 @@ app.post("/todos", async (req, res) => {
     }
 
     const todo = new Todo({
-      task: req.body.task
-    });
+  task: req.body.task,
+  completed: req.body.completed ?? false 
+});
 
     const saved = await todo.save();
 
