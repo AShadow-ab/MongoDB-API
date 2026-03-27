@@ -12,10 +12,11 @@ app.use((req, res, next) => {
   next();
 });
 
-mongoose.connect("mongodb://127.0.0.1:27017/TodoDB")
-.then(() => console.log("MongoDB Connected"))
-.catch(err => console.error(err));
 
+
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB Connected!"))
+  .catch(err => console.error("Connection error:", err));
 
 // GET ALL TODOS (supports query filtering)
 app.get("/todos", async (req, res) => {
